@@ -4,17 +4,18 @@ import toast from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 
 function User() {
+  const { register, handleSubmit, formState, reset } = useForm();
+
   const { mutate, isLoading } = useMutation({
     mutationFn: createContactus,
     onSuccess: () => {
       toast.success('New Booking successfully created');
+      reset();
     },
     onError: () => {
       toast.error('New Booking cannot created');
     },
   });
-
-  const { register, handleSubmit, formState } = useForm();
 
   const { errors } = formState;
 
@@ -37,6 +38,7 @@ function User() {
             type="text"
             placeholder="Name"
             {...register('name', { required: 'Name is required' })}
+            disabled={isLoading}
             className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
           />
           {errors.name && (
@@ -58,6 +60,7 @@ function User() {
                 message: 'Invalid email address',
               },
             })}
+            disabled={isLoading}
             className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
           />
           {errors.email && (
@@ -79,6 +82,7 @@ function User() {
                 message: 'Invalid phone number',
               },
             })}
+            disabled={isLoading}
             className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
           />
           {errors.phoneNo && (
@@ -96,6 +100,7 @@ function User() {
             type="text"
             placeholder="Ex Dog walking"
             {...register('service', { required: 'Service is required' })}
+            disabled={isLoading}
             className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
           />
           {errors.service && (
@@ -115,6 +120,7 @@ function User() {
           rows="4"
           placeholder="Write your message here.."
           {...register('message')}
+          disabled={isLoading}
           className="w-full resize-none rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
         ></textarea>
       </div>
