@@ -2,6 +2,9 @@ import { lazy, Suspense, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { Backdrop, CircularProgress } from '@mui/material';
 import { useLoading } from '../ui/Loader';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Toaster } from 'react-hot-toast';
 
 const Applayout = lazy(() => import('../ui/Applayout'));
 const Home = lazy(() => import('../pages/Home'));
@@ -14,6 +17,14 @@ const Blog1 = lazy(() => import('../pages/Blog1'));
 const Blog2 = lazy(() => import('../pages/Blog2'));
 const Blog3 = lazy(() => import('../pages/Blog3'));
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 0,
+    },
+  },
+});
+
 function App() {
   const { loading, setLoading } = useLoading();
   const location = useLocation();
@@ -24,9 +35,14 @@ function App() {
     return () => clearTimeout(timer);
   }, [location, setLoading]);
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
+
       <Backdrop
-        sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 9999 })}
+        sx={(theme) => ({
+          color: '#fff',
+          zIndex: theme.zIndex.drawer + 9999,
+        })}
         open={loading}
       >
         <CircularProgress color="inherit" />
@@ -47,7 +63,28 @@ function App() {
           </Route>
         </Routes>
       </Suspense>
-    </>
+
+      <Toaster
+        position="top-center"
+        gutter={12}
+        containerStyle={{ margin: '8px' }}
+        toastOptions={{
+          success: {
+            duration: 3000,
+          },
+          error: {
+            duration: 5000,
+          },
+          style: {
+            fontSize: '16px',
+            maxWidth: '500px',
+            padding: '16px 24px',
+            backgroundColor: '#F3F4F6',
+            color: '#111827',
+          },
+        }}
+      />
+    </QueryClientProvider>
   );
 }
 
