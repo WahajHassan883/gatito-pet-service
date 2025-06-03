@@ -67,7 +67,7 @@ function SignUpForm() {
           })}
           className="mt-1 w-full rounded-md border px-3 py-2 shadow-sm focus:outline-none"
         />
-        {errors.name && (
+        {errors.email && (
           <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
         )}
       </div>
@@ -90,7 +90,7 @@ function SignUpForm() {
           })}
           className="mt-1 w-full rounded-md border px-3 py-2 shadow-sm focus:outline-none"
         />
-        {errors.name && (
+        {errors.password && (
           <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
         )}
       </div>
