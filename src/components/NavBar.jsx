@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import NavBarMenu from './NavBarMenu';
 
 function NavBar() {
   return (
@@ -37,11 +38,14 @@ function NavBar() {
         </ul>
       </div>
 
-      <NavLink to="/book">
-        <button className="rounded-md bg-[#FB7E46] px-5 py-2 text-sm font-bold uppercase text-black hover:bg-orange-600 md:mr-6 md:mt-5">
-          Book Now
-        </button>
-      </NavLink>
+      <div className="flex items-center gap-4">
+        <NavBarMenu />
+        <NavLink to="/book">
+          <button className="mt-3 rounded-md bg-[#FB7E46] px-5 py-2 text-sm font-bold uppercase text-black transition-colors hover:bg-orange-600">
+            Book Now
+          </button>
+        </NavLink>
+      </div>
     </nav>
   );
 }

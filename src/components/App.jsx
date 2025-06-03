@@ -5,6 +5,8 @@ import { useLoading } from '../ui/Loader';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'react-hot-toast';
+import LoginForm from '../features/authentication/loginForm';
+import SignUpForm from '../features/authentication/SignUpForm';
 
 const Applayout = lazy(() => import('../ui/Applayout'));
 const Home = lazy(() => import('../pages/Home'));
@@ -52,6 +54,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Applayout />}>
             <Route index element={<Home />} />
+            <Route path="login" element={<LoginForm />} />
+            <Route path="signup" element={<SignUpForm />} />
             <Route path="services" element={<Services />} />
             <Route path="about" element={<AboutUs />} />
             <Route path="blog" element={<Blog />} />
