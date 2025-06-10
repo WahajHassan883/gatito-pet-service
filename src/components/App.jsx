@@ -5,8 +5,9 @@ import { useLoading } from '../ui/Loader';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'react-hot-toast';
-import LoginForm from '../features/authentication/loginForm';
+import LoginForm from '../features/authentication/LoginForm';
 import SignUpForm from '../features/authentication/SignUpForm';
+import ProtectedRoute from '../ui/ProtectedRoute';
 
 const Applayout = lazy(() => import('../ui/Applayout'));
 const Home = lazy(() => import('../pages/Home'));
@@ -36,6 +37,7 @@ function App() {
     const timer = setTimeout(() => setLoading(false), 2000);
     return () => clearTimeout(timer);
   }, [location, setLoading]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
@@ -50,12 +52,26 @@ function App() {
         <CircularProgress color="inherit" />
       </Backdrop>
 
-      <Suspense fallback={null}>
+      <Suspense
+        fallback={
+          <Backdrop open sx={{ color: '#fff', zIndex: 9999 }}>
+            <CircularProgress color="inherit" />
+          </Backdrop>
+        }
+      >
         <Routes>
-          <Route path="/" element={<Applayout />}>
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/signup" element={<SignUpForm />} />
+
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Applayout />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<Home />} />
-            <Route path="login" element={<LoginForm />} />
-            <Route path="signup" element={<SignUpForm />} />
             <Route path="services" element={<Services />} />
             <Route path="about" element={<AboutUs />} />
             <Route path="blog" element={<Blog />} />
