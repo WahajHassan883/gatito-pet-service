@@ -65,7 +65,7 @@ function Hero({ showButton = true, title1, title2, showImages = false }) {
         {showButton && (
           <NavLink to={isBlogPage ? '/blog/createblogform' : '/book'}>
             <button className="mx-auto block w-48 rounded bg-[#FB7E46] px-6 py-3 text-lg font-bold uppercase text-black hover:bg-orange-600">
-              {isBlogPage ? 'Create Blog' : 'Book Now'}
+              {isBlogPage ? 'Add New Blog' : 'Book Now'}
             </button>
           </NavLink>
         )}

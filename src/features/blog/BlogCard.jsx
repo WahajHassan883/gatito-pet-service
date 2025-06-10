@@ -1,32 +1,18 @@
 import BlogPostCard from './BlogPostCard';
+import { useQuery } from '@tanstack/react-query';
+import { getBlogs } from './apiBlogs';
 
-function BlogCard({ showHeading = true, showExtra = false }) {
-  const blogPosts = [
-    {
-      imageSrc: './cat_dog.png',
-      altText: 'Cat and Dog',
-      title: 'STARTING YOUR NEW FRIENDSHIP OFF ON THE RIGHT PAW',
-      link: '/blog1',
-      tag: 'ADOPTING A PET',
-      date: '9.11.2024',
-    },
-    {
-      imageSrc: './golden_retriever.png',
-      altText: 'Golden Retriever',
-      title: 'STARTING YOUR NEW FRIENDSHIP OFF ON THE RIGHT PAW',
-      link: '/blog2',
-      tag: 'ADOPTING A PET',
-      date: '9.11.2024',
-    },
-    {
-      imageSrc: './spaniel.png',
-      altText: 'Spaniel',
-      title: 'STARTING YOUR NEW FRIENDSHIP OFF ON THE RIGHT PAW',
-      link: '/blog3',
-      tag: 'ADOPTING A PET',
-      date: '9.11.2024',
-    },
-  ];
+function BlogCard({ showHeading = true, showExtra = true }) {
+  const {
+    isLoading,
+    data: blogs,
+    error,
+  } = useQuery({
+    queryKey: ['blog'],
+    queryFn: getBlogs,
+  });
+
+  if (isLoading) return null;
 
   return (
     <div className="mx-auto mb-10 max-w-6xl px-4 py-8">
@@ -37,8 +23,8 @@ function BlogCard({ showHeading = true, showExtra = false }) {
       )}
 
       <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
-        {blogPosts.map((post, id) => (
-          <BlogPostCard key={id} {...post} />
+        {blogs.map((blog) => (
+          <BlogPostCard blog={blog} key={blog.id} />
         ))}
       </div>
 

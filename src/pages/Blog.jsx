@@ -6,9 +6,9 @@ function Blog() {
   return (
     <div>
       <Hero title1="Articles & news" showImages={false} />
-      <BlogCard />
-      <BlogCard showHeading={false} />
-      <BlogCard showHeading={false} />
+      <BlogCard showExtra={false} />
+      <BlogCard showHeading={false} showExtra={false} />
+      <BlogCard showHeading={false} showExtra={false} />
       <CTA />
     </div>
   );

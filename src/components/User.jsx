@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { createContactus } from '../services/apiContactUs';
+import { createContactus } from '../services/apiContactus';
 import toast from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 
@@ -12,9 +12,7 @@ function User() {
       toast.success('New Booking successfully created');
       reset();
     },
-    onError: () => {
-      toast.error('New Booking cannot created');
-    },
+    onError: (err) => toast.error(err.message),
   });
 
   const { errors } = formState;

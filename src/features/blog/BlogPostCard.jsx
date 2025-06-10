@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 
-function BlogPostCard({ imageSrc, altText, title, link, tag, date }) {
+function BlogPostCard({ blog }) {
+  const { imageSrc, altText, title, link, tag, date } = blog;
   return (
     <div className="bg-white shadow-md">
       <img src={imageSrc} alt={altText} className="h-48 w-full object-cover" />
@@ -10,11 +11,11 @@ function BlogPostCard({ imageSrc, altText, title, link, tag, date }) {
         </h2>
         <div className="flex items-center justify-between">
           <NavLink to={link}>
-            <button className="rounded-full border border-[#FB7E46] px-3 py-1 text-xs transition-all duration-300 hover:bg-[#FB7E46] hover:text-white">
+            <button className="rounded-full border border-[#FB7E46] px-3 py-1 text-xs uppercase transition-all duration-300 hover:bg-[#FB7E46] hover:text-white">
               {tag}
             </button>
           </NavLink>
-          <span className="text-xs text-[#27221F]">{date}</span>
+          <span className="text-xs font-semibold text-[#27221F]">{date}</span>
         </div>
       </div>
     </div>
