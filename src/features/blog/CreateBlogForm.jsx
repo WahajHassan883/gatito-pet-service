@@ -32,7 +32,7 @@ function CreateBlogForm() {
       className="mx-auto my-10 max-w-xl rounded-lg bg-white p-6 shadow"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <h2 className="mb-6 text-2xl font-bold uppercase text-[#27221F]">
+      <h2 className="mb-6 text-center text-2xl font-bold uppercase text-[#27221F]">
         Create New Blog
       </h2>
       <div className="space-y-4">
@@ -145,7 +145,7 @@ function CreateBlogForm() {
         <div className="pt-4">
           <button
             type="submit"
-            className="w-full rounded bg-[#FB7E46] px-4 py-2 font-semibold text-white transition duration-300 hover:bg-[#e36b33]"
+            className="w-full rounded bg-[#FB7E46] px-4 py-2 font-semibold uppercase text-white transition duration-300 hover:bg-[#e36b33]"
           >
             {isLoading ? 'Publishing...' : 'Publish Blog Post'}
           </button>
