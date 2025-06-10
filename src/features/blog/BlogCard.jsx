@@ -1,4 +1,4 @@
-import BlogPostCard from '../ui/BlogPostCard';
+import BlogPostCard from './BlogPostCard';
 
 function BlogCard({ showHeading = true, showExtra = false }) {
   const blogPosts = [

@@ -8,6 +8,7 @@ import { Toaster } from 'react-hot-toast';
 import LoginForm from '../features/authentication/LoginForm';
 import SignUpForm from '../features/authentication/SignUpForm';
 import ProtectedRoute from '../ui/ProtectedRoute';
+import CreateBlogForm from '../features/blog/CreateBlogForm';
 
 const Applayout = lazy(() => import('../ui/Applayout'));
 const Home = lazy(() => import('../pages/Home'));
@@ -75,6 +76,7 @@ function App() {
             <Route path="services" element={<Services />} />
             <Route path="about" element={<AboutUs />} />
             <Route path="blog" element={<Blog />} />
+            <Route path="/blog/createblogform" element={<CreateBlogForm />} />
             <Route path="contact" element={<ContactUs />} />
             <Route path="team" element={<Team />} />
             <Route path="blog1" element={<Blog1 />} />

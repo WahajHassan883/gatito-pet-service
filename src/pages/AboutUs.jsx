@@ -1,4 +1,4 @@
-import BlogCard from '../components/BlogCard';
+import BlogCard from '../features/blog/BlogCard';
 import Gallery from '../components/Galery';
 import Hero from '../components/Hero';
 import Herotwo from '../components/Herotwo';

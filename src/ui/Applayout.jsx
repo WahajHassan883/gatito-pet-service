@@ -5,7 +5,7 @@ import Footer from '../components/Footer';
 function Applayout() {
   const location = useLocation();
 
-  // Check if the current route is /login
+  // Check if the current route is /login || /signup
   const isAuthPage =
     location.pathname === '/login' || location.pathname === '/signup';
 

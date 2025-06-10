@@ -1,4 +1,4 @@
-import BlogCard from '../components/BlogCard';
+import BlogCard from '../features/blog/BlogCard';
 import CTA from '../components/CTA';
 import FQA from '../components/FQA';
 import Hero from '../components/Hero';

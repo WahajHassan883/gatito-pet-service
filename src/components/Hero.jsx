@@ -1,6 +1,9 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 function Hero({ showButton = true, title1, title2, showImages = false }) {
+  const location = useLocation();
+  const isBlogPage = location.pathname === '/blog';
+
   return (
     <div className="relative mx-auto max-w-6xl overflow-hidden p-6">
       {showImages && (
@@ -60,9 +63,9 @@ function Hero({ showButton = true, title1, title2, showImages = false }) {
         </p>
 
         {showButton && (
-          <NavLink to="/book">
+          <NavLink to={isBlogPage ? '/blog/createblogform' : '/book'}>
             <button className="mx-auto block w-48 rounded bg-[#FB7E46] px-6 py-3 text-lg font-bold uppercase text-black hover:bg-orange-600">
-              Book Now
+              {isBlogPage ? 'Create Blog' : 'Book Now'}
             </button>
           </NavLink>
         )}

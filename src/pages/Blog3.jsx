@@ -1,5 +1,5 @@
 import AboutMe from '../components/AboutMe';
-import BlogCard from '../components/BlogCard';
+import BlogCard from '../features/blog/BlogCard';
 import BlogDetails from '../components/BlogDetails';
 
 function Blog3() {

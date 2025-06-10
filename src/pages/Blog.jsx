@@ -1,5 +1,5 @@
 import Hero from '../components/Hero';
-import BlogCard from '../components/BlogCard';
+import BlogCard from '../features/blog/BlogCard';
 import CTA from '../components/CTA';
 
 function Blog() {

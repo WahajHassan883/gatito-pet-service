@@ -8,7 +8,7 @@ import FQA from '../components/FQA';
 import Galery from '../components/Galery';
 
 import ServiceCard from '../components/ServicesCard';
-import BlogCard from '../components/BlogCard';
+import BlogCard from '../features/blog/BlogCard';
 
 function Home() {
   return (
