@@ -10,16 +10,26 @@ export async function getBlogs() {
     return data;
 }
 
-export async function createBlogs(newBlog) {
+export async function createEditBlogs(newBlog, id) {
+    const hasImagePath = newBlog.imageSrc?.startsWith?.(supabaseUrl)
+
     const imageName = `${Math.random()}-${newBlog.imageSrc.name}`.replaceAll(
         "/",
         ""
     );
-    const imagePath = `${supabaseUrl}/storage/v1/object/public/blog-images/${imageName}`
+    const imagePath = hasImagePath ? newBlog.imageSrc : `${supabaseUrl}/storage/v1/object/public/blog-images/${imageName}`
 
 
     // 1. Create cabin 
-    const { data, error } = await supabase.from('blog').insert([{ ...newBlog, imageSrc: imagePath }]);
+    let query = supabase.from('blog')
+
+    // A) Create
+    if (!id) query = query.insert([{ ...newBlog, imageSrc: imagePath }]);
+
+    // B) Edit
+    if (id) query = query.update({ ...newBlog, imageSrc: imagePath }).eq('id', id)
+
+    const { data, error } = await query.select().single();
 
     if (error) {
         console.error(error)
@@ -35,9 +45,8 @@ export async function createBlogs(newBlog) {
     if (storageError) {
         await supabase.from("blog").delete().eq("id", data.id);
         console.error(storageError)
-        throw new Error('Blog image could not be uploaded and the cabin was not created');
+        throw new Error('Blog image could not be uploaded and the Blog was not created');
     }
-
     return data;
 }
 
@@ -49,6 +58,20 @@ export async function deleteBlog(id) {
     if (error) {
         console.error(error)
         throw new Error('Blog could not be deleted');
+    }
+    return data;
+}
+
+export async function getBlogId(id) {
+    const { data, error } = await supabase
+        .from('blog')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+    if (error) {
+        console.error(error);
+        throw new Error('Blog not found');
     }
     return data;
 }

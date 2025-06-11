@@ -9,6 +9,8 @@ import LoginForm from '../features/authentication/LoginForm';
 import SignUpForm from '../features/authentication/SignUpForm';
 import ProtectedRoute from '../ui/ProtectedRoute';
 import CreateBlogForm from '../features/blog/CreateBlogForm';
+import Blog1 from '../pages/Blog1';
+import BlogDetails from './BlogDetails';
 
 const Applayout = lazy(() => import('../ui/Applayout'));
 const Home = lazy(() => import('../pages/Home'));
@@ -17,9 +19,6 @@ const AboutUs = lazy(() => import('../pages/AboutUs'));
 const Blog = lazy(() => import('../pages/Blog'));
 const ContactUs = lazy(() => import('../pages/ContactUs'));
 const Team = lazy(() => import('../pages/Team'));
-const Blog1 = lazy(() => import('../pages/Blog1'));
-const Blog2 = lazy(() => import('../pages/Blog2'));
-const Blog3 = lazy(() => import('../pages/Blog3'));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -76,12 +75,10 @@ function App() {
             <Route path="services" element={<Services />} />
             <Route path="about" element={<AboutUs />} />
             <Route path="blog" element={<Blog />} />
+            <Route path="blog/:blogId" element={<Blog1 />} />
             <Route path="/blog/createblogform" element={<CreateBlogForm />} />
             <Route path="contact" element={<ContactUs />} />
             <Route path="team" element={<Team />} />
-            <Route path="blog1" element={<Blog1 />} />
-            <Route path="blog2" element={<Blog2 />} />
-            <Route path="blog3" element={<Blog3 />} />
           </Route>
         </Routes>
       </Suspense>

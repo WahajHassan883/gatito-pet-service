@@ -1,42 +1,20 @@
 import toast from 'react-hot-toast';
 
-import { createEditBlogs } from './apiBlogs';
+import { createBlogs } from './apiBlogs';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 
-function CreateBlogForm({ blogToEdit = {} }) {
-  const { id: editId, ...editValues } = blogToEdit;
-  const isEditSession = Boolean(editId);
-
-  const { register, handleSubmit, reset, formState } = useForm({
-    defaultValues: isEditSession ? editValues : {},
-  });
+function CreateBlogForm() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  useEffect(() => {
-    if (isEditSession) {
-      reset(editValues);
-    }
-  }, [isEditSession, editValues, reset]);
+  const { register, handleSubmit, reset, formState } = useForm();
 
-  const { mutate: createBlog, isLoading: isCreating } = useMutation({
-    mutationFn: createEditBlogs,
+  const { mutate, isLoading } = useMutation({
+    mutationFn: createBlogs,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['blog'] });
-      reset();
       toast.success('New Blog successfully created');
-      navigate('/blog');
-    },
-    onError: (err) => toast.error(err.message),
-  });
-
-  const { mutate: editBlog, isLoading: isEditing } = useMutation({
-    mutationFn: ({ newBlogData, id }) => createEditBlogs(newBlogData, id),
-    onSuccess: () => {
-      toast.success('Blog successfully edited');
       queryClient.invalidateQueries({ queryKey: ['blog'] });
       reset();
       navigate('/blog');
@@ -46,15 +24,8 @@ function CreateBlogForm({ blogToEdit = {} }) {
 
   const { errors } = formState;
 
-  const isWorking = isCreating || isEditing;
-
   function onSubmit(data) {
-    const image =
-      typeof data.imageSrc === 'string' ? data.imageSrc : data.imageSrc[0];
-
-    if (isEditSession)
-      editBlog({ newBlogData: { ...data, imageSrc: image }, id: editId });
-    else createBlog({ ...data, imageSrc: image });
+    mutate({ ...data, imageSrc: data.imageSrc[0] });
   }
 
   return (
@@ -63,7 +34,7 @@ function CreateBlogForm({ blogToEdit = {} }) {
       onSubmit={handleSubmit(onSubmit)}
     >
       <h2 className="mb-6 text-center text-2xl font-bold uppercase text-[#27221F]">
-        {isEditSession ? 'Edit Blog' : 'Create New Blog'}
+        Create New Blog
       </h2>
       <div className="space-y-4">
         <div>
@@ -78,7 +49,6 @@ function CreateBlogForm({ blogToEdit = {} }) {
             })}
             placeholder="Enter blog title"
             className="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-[#FB7E46] focus:outline-none"
-            disabled={isWorking}
           />
           {errors.title && (
             <p className="mt-1 text-sm text-red-600">{errors.title.message}</p>
@@ -97,7 +67,6 @@ function CreateBlogForm({ blogToEdit = {} }) {
             })}
             placeholder="e.g. Adopting a Pet"
             className="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-[#FB7E46] focus:outline-none"
-            disabled={isWorking}
           />
           {errors.tag && (
             <p className="mt-1 text-sm text-red-600">{errors.tag.message}</p>
@@ -116,7 +85,6 @@ function CreateBlogForm({ blogToEdit = {} }) {
             })}
             placeholder="Describe the image"
             className="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-[#FB7E46] focus:outline-none"
-            disabled={isWorking}
           />
           {errors.altText && (
             <p className="mt-1 text-sm text-red-600">
@@ -135,7 +103,6 @@ function CreateBlogForm({ blogToEdit = {} }) {
             {...register('link')}
             placeholder="/blog-slug"
             className="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-[#FB7E46] focus:outline-none"
-            disabled={isWorking}
           />
         </div>
 
@@ -150,7 +117,6 @@ function CreateBlogForm({ blogToEdit = {} }) {
               required: 'Please select a publication date',
             })}
             className="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-[#FB7E46] focus:outline-none"
-            disabled={isWorking}
           />
           {errors.date && (
             <p className="mt-1 text-sm text-red-600">{errors.date.message}</p>
@@ -166,12 +132,9 @@ function CreateBlogForm({ blogToEdit = {} }) {
             accept="image/*"
             id="imageSrc"
             {...register('imageSrc', {
-              required: isEditSession
-                ? false
-                : 'Please upload a featured image for your post',
+              required: 'Please upload a featured image for your post',
             })}
             className="mt-1 px-3 py-2 text-sm file:mr-4 file:rounded-full file:border-0 file:bg-[#FB7E46] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-[#e36b33]"
-            disabled={isWorking}
           />
           {errors.imageSrc && (
             <p className="mt-1 text-sm text-red-600">
@@ -185,13 +148,7 @@ function CreateBlogForm({ blogToEdit = {} }) {
             type="submit"
             className="w-full rounded bg-[#FB7E46] px-4 py-2 font-semibold uppercase text-white transition duration-300 hover:bg-[#e36b33]"
           >
-            {isWorking
-              ? isEditSession
-                ? 'Updating...'
-                : 'Publishing...'
-              : isEditSession
-                ? 'Update Blog Post'
-                : 'Publish Blog Post'}
+            {isLoading ? 'Publishing...' : 'Publish Blog Post'}
           </button>
         </div>
       </div>

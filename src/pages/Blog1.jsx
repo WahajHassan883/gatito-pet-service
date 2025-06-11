@@ -5,7 +5,7 @@ import BlogDetails from '../components/BlogDetails';
 function Blog1() {
   return (
     <div>
-      <BlogDetails imagesrc="./cat_dog.png" />
+      <BlogDetails />
       <AboutMe />
       <BlogCard />
     </div>
