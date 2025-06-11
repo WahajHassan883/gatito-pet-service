@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createContactus } from '../services/apiContactus';
 import toast from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
@@ -6,10 +6,13 @@ import { useForm } from 'react-hook-form';
 function User() {
   const { register, handleSubmit, formState, reset } = useForm();
 
+  const queryClient = useQueryClient();
+
   const { mutate, isLoading } = useMutation({
     mutationFn: createContactus,
     onSuccess: () => {
       toast.success('New Booking successfully created');
+      queryClient.invalidateQueries({ queryKey: ['contactus'] });
       reset();
     },
     onError: (err) => toast.error(err.message),

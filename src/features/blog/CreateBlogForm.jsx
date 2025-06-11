@@ -1,7 +1,7 @@
+import toast from 'react-hot-toast';
+import { createBlogs } from './apiBlogs';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
-import { createBlogs } from './apiBlogs';
-import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 function CreateBlogForm() {
@@ -14,7 +14,7 @@ function CreateBlogForm() {
     mutationFn: createBlogs,
     onSuccess: () => {
       toast.success('New Blog successfully created');
-      queryClient.invalidateQueries({ queryKey: ['blogs'] });
+      queryClient.invalidateQueries({ queryKey: ['blog'] });
       reset();
       navigate('/blog');
     },

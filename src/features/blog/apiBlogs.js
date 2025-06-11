@@ -33,10 +33,22 @@ export async function createBlogs(newBlog) {
 
     // 3.  Delete the cabin IF there  was an error uploading image
     if (storageError) {
-        await supabase.from("blogs").delete().eq("id", data.id);
+        await supabase.from("blog").delete().eq("id", data.id);
         console.error(storageError)
         throw new Error('Blog image could not be uploaded and the cabin was not created');
     }
 
+    return data;
+}
+
+export async function deleteBlog(id) {
+
+    const { data, error } = await supabase.from('blog')
+        .delete().eq('id', id);
+
+    if (error) {
+        console.error(error)
+        throw new Error('Blog could not be deleted');
+    }
     return data;
 }
