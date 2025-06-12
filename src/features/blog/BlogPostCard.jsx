@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { deleteBlog } from './apiBlogs';
 import toast from 'react-hot-toast';
 import { HiPencil, HiTrash } from 'react-icons/hi';
@@ -10,7 +10,7 @@ function BlogPostCard({ blog }) {
   const [showForm, setShowForm] = useState(false);
   const navigate = useNavigate();
 
-  const { id: blogId, imageSrc, altText, title, link, tag, date } = blog;
+  const { id: blogId, imageSrc, altText, title, tag, date } = blog;
 
   const queryClient = useQueryClient();
 

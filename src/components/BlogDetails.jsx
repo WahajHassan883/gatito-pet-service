@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useBlog } from '../features/blog/useBlog';
+import UserAvatar from '../features/authentication/UserAvatar';
 
 function BlogDetails() {
   const { blog, isLoading } = useBlog();
@@ -31,14 +32,8 @@ function BlogDetails() {
         {title}
       </h1>
       <div className="mt-4 flex items-center justify-center gap-3">
-        <img
-          src="../../../gatito-pet-service/public/client.png"
-          alt="Michael Johnson"
-          className="h-12 w-12 rounded-full object-cover"
-        />
         <div className="text-left">
-          <h3 className="text-md font-bold text-[#27221F]">Michael Johnson</h3>
-          <p className="text[#27221F] text-sm">Pet Owner, Happy Paws</p>
+          <UserAvatar />
         </div>
       </div>
     </div>
