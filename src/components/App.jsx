@@ -10,7 +10,6 @@ import SignUpForm from '../features/authentication/SignUpForm';
 import ProtectedRoute from '../ui/ProtectedRoute';
 import CreateBlogForm from '../features/blog/CreateBlogForm';
 import Blog1 from '../pages/Blog1';
-import BlogDetails from './BlogDetails';
 
 const Applayout = lazy(() => import('../ui/Applayout'));
 const Home = lazy(() => import('../pages/Home'));
