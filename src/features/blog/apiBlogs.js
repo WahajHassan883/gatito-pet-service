@@ -1,77 +1,117 @@
 import supabase, { supabaseUrl } from "../../services/supabase"
 
 export async function getBlogs() {
-    const { data, error } = await supabase.from('blog').select('*');
+    const { data, error } = await supabase.from("blog").select("*");
 
     if (error) {
-        console.error(error)
-        throw new Error('Blog could not be loaded');
+        console.error(error);
+        throw new Error("Blog could not be loaded");
     }
     return data;
 }
 
 export async function createEditBlogs(newBlog, id) {
-    const hasImagePath = newBlog.imageSrc?.startsWith?.(supabaseUrl)
+    const hasImagePath = newBlog.imageSrc?.startsWith?.(supabaseUrl);
+    let imagePath = newBlog.imageSrc;
 
-    const imageName = `${Math.random()}-${newBlog.imageSrc.name}`.replaceAll(
-        "/",
-        ""
-    );
-    const imagePath = hasImagePath ? newBlog.imageSrc : `${supabaseUrl}/storage/v1/object/public/blog-images/${imageName}`
+    if (!hasImagePath && newBlog.imageSrc instanceof File) {
+        const imageName = `${Math.random()}-${newBlog.imageSrc.name}`.replaceAll("/", "");
+        imagePath = `${supabaseUrl}/storage/v1/object/public/blog-images/${imageName}`;
 
+        const { error: storageError } = await supabase.storage
+            .from("blog-images")
+            .upload(imageName, newBlog.imageSrc);
 
-    // 1. Create cabin 
-    let query = supabase.from('blog')
+        if (storageError) {
+            console.error(storageError);
+            throw new Error("Blog image could not be uploaded");
+        }
+    }
 
-    // A) Create
-    if (!id) query = query.insert([{ ...newBlog, imageSrc: imagePath }]);
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) {
+        console.error(authError);
+        throw new Error("User not authenticated");
+    }
 
-    // B) Edit
-    if (id) query = query.update({ ...newBlog, imageSrc: imagePath }).eq('id', id)
+    let query = supabase.from("blog");
+
+    if (!id) {
+        query = query.insert([{ ...newBlog, imageSrc: imagePath, authorid: user.id }]);
+    } else {
+        query = query.update({ ...newBlog, imageSrc: imagePath, authorid: user.id }).eq("id", id);
+    }
 
     const { data, error } = await query.select().single();
 
     if (error) {
-        console.error(error)
-        throw new Error('Blog could not be created');
+        console.error(error);
+        if (!id && hasImagePath) {
+            await supabase.storage.from("blog-images").remove([imagePath.split("/").pop()]);
+        }
+        throw new Error(`Blog could not be ${id ? "updated" : "created"}`);
     }
 
-    // 2. Upload image
-    const { error: storageError } = await supabase.storage
-        .from('blog-images')
-        .upload(imageName, newBlog.imageSrc);
-
-    // 3.  Delete the cabin IF there  was an error uploading image
-    if (storageError) {
-        await supabase.from("blog").delete().eq("id", data.id);
-        console.error(storageError)
-        throw new Error('Blog image could not be uploaded and the Blog was not created');
-    }
     return data;
 }
 
 export async function deleteBlog(id) {
-
-    const { data, error } = await supabase.from('blog')
-        .delete().eq('id', id);
+    const { data, error } = await supabase.from("blog").delete().eq("id", id);
 
     if (error) {
-        console.error(error)
-        throw new Error('Blog could not be deleted');
+        console.error(error);
+        throw new Error("Blog could not be deleted");
     }
     return data;
 }
 
+// export async function getBlogId(id) {
+//     if (!id || isNaN(id)) {
+//         console.error("Invalid blog ID:", id);
+//         throw new Error("Invalid blog ID");
+//     }
+
+//     const { data, error } = await supabase
+//         .from("blog")
+//         .select(`*
+//   blog_with_authors:authorid (
+//         UID,
+//         DisplayName,
+//         Email
+//     )
+//    `).eq("id", id)
+//         .single();
+
+
+//     console.log(data)
+
+//     if (error) {
+//         console.error("Supabase error:", error.message, error.details, error.hint);
+//         throw new Error(`Blog not found: ${error.message}`);
+//     }
+
+//     return {
+//         ...data,
+//         users: data.user_profiles,
+//     };
+// }
+
 export async function getBlogId(id) {
+    if (!id) {
+        console.error("Invalid blog ID:", id);
+        throw new Error("Invalid blog ID");
+    }
+
     const { data, error } = await supabase
-        .from('blog')
-        .select('*')
-        .eq('id', id)
+        .from("blog_with_authors")
+        .select("*")
+        .eq("id", id)
         .single();
 
     if (error) {
-        console.error(error);
-        throw new Error('Blog not found');
+        console.error("Supabase error:", error.message, error.details, error.hint);
+        throw new Error(`Blog not found: ${error.message}`);
     }
+
     return data;
 }

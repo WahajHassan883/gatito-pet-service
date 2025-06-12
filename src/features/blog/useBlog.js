@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { getBlogs } from "./apiBlogs";
+import { getBlogId } from "./apiBlogs";
 
 export function useBlog() {
     const { blogId } = useParams();
@@ -11,9 +11,8 @@ export function useBlog() {
         error,
     } = useQuery({
         queryKey: ["blog", blogId],
-        queryFn: () => getBlogs(blogId),
+        queryFn: () => getBlogId(blogId),
         retry: false,
     });
-
-    return { isLoading, blog, error }
+    return { isLoading, blog, error };
 }
