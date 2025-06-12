@@ -1,5 +1,4 @@
 import toast from 'react-hot-toast';
-
 import { createEditBlogs } from './apiBlogs';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
@@ -10,17 +9,18 @@ function CreateBlogForm({ blogToEdit = {} }) {
   const { id: editId, ...editValues } = blogToEdit;
   const isEditSession = Boolean(editId);
 
-  const { register, handleSubmit, reset, formState } = useForm({
-    defaultValues: isEditSession ? editValues : {},
-  });
+  const { register, handleSubmit, reset, formState } = useForm();
+
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
+  // ✅ Properly reset form values when editing
   useEffect(() => {
     if (isEditSession) {
       reset(editValues);
     }
-  }, [isEditSession, editValues, reset]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isEditSession, JSON.stringify(editValues), reset, editValues]);
 
   const { mutate: createBlog, isLoading: isCreating } = useMutation({
     mutationFn: createEditBlogs,
@@ -45,7 +45,6 @@ function CreateBlogForm({ blogToEdit = {} }) {
   });
 
   const { errors } = formState;
-
   const isWorking = isCreating || isEditing;
 
   function onSubmit(data) {
@@ -72,7 +71,6 @@ function CreateBlogForm({ blogToEdit = {} }) {
           </label>
           <input
             type="text"
-            id="title"
             {...register('title', {
               required: 'Please provide a title for your blog post',
             })}
@@ -91,7 +89,6 @@ function CreateBlogForm({ blogToEdit = {} }) {
           </label>
           <input
             type="text"
-            id="tag"
             {...register('tag', {
               required: 'Please select a category for your post',
             })}
@@ -110,7 +107,6 @@ function CreateBlogForm({ blogToEdit = {} }) {
           </label>
           <input
             type="text"
-            id="altText"
             {...register('altText', {
               required: 'Please describe the image for accessibility',
             })}
@@ -131,7 +127,6 @@ function CreateBlogForm({ blogToEdit = {} }) {
           </label>
           <input
             type="text"
-            id="link"
             {...register('link')}
             placeholder="/blog-slug"
             className="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-[#FB7E46] focus:outline-none"
@@ -145,7 +140,6 @@ function CreateBlogForm({ blogToEdit = {} }) {
           </label>
           <input
             type="date"
-            id="date"
             {...register('date', {
               required: 'Please select a publication date',
             })}
@@ -164,7 +158,6 @@ function CreateBlogForm({ blogToEdit = {} }) {
           <input
             type="file"
             accept="image/*"
-            id="imageSrc"
             {...register('imageSrc', {
               required: isEditSession
                 ? false
@@ -184,6 +177,7 @@ function CreateBlogForm({ blogToEdit = {} }) {
           <button
             type="submit"
             className="w-full rounded bg-[#FB7E46] px-4 py-2 font-semibold uppercase text-white transition duration-300 hover:bg-[#e36b33]"
+            disabled={isWorking}
           >
             {isWorking
               ? isEditSession
