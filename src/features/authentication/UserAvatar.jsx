@@ -1,5 +1,4 @@
 import { useUser } from './useUser';
-// import defaultUserImg from '../../../public/default-user.jpg';
 
 function UserAvatar() {
   const { user } = useUser();
