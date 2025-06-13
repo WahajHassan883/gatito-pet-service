@@ -12,7 +12,16 @@ function BlogPostCard({ blog }) {
   const [currentUserId, setCurrentUserId] = useState(null);
   const navigate = useNavigate();
 
-  const { id: blogId, imageSrc, altText, title, tag, date, authorid } = blog;
+  const {
+    id: blogId,
+    imageSrc,
+    altText,
+    title,
+    tag,
+    date,
+    authorid,
+    price,
+  } = blog;
 
   const queryClient = useQueryClient();
 
@@ -42,6 +51,7 @@ function BlogPostCard({ blog }) {
       <img src={imageSrc} alt={altText} className="h-48 w-full object-cover" />
 
       <div className="relative p-4">
+        {/* Author Controls */}
         {isAuthor && (
           <>
             <button
@@ -52,15 +62,26 @@ function BlogPostCard({ blog }) {
               <HiPencil className="text-lg" />
             </button>
             {showForm && <CreateBlogForm blogToEdit={blog} />}
-            <button
-              type="button"
-              className="absolute right-0 top-0 p-2 text-red-600 hover:text-red-800"
-              onClick={() => mutate(blogId)}
-              disabled={isDeleting}
-            >
-              <HiTrash className="text-lg" />
-            </button>
+
+            <div className="absolute right-0 top-0 flex flex-col items-center p-2">
+              <button
+                type="button"
+                className="text-red-600 hover:text-red-800"
+                onClick={() => mutate(blogId)}
+                disabled={isDeleting}
+              >
+                <HiTrash className="text-lg" />
+              </button>
+            </div>
           </>
+        )}
+
+        {!isAuthor && (
+          <div className="absolute right-0 top-0 flex flex-col items-center p-2">
+            <span className="mt-1 text-sm font-semibold text-[#27221F]">
+              {price} $
+            </span>
+          </div>
         )}
 
         <h2 className="mb-3 pr-8 text-lg font-bold uppercase text-[#27221F]">

@@ -14,7 +14,6 @@ function CreateBlogForm({ blogToEdit = {} }) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  // ✅ Properly reset form values when editing
   useEffect(() => {
     if (isEditSession) {
       reset(editValues);
@@ -51,9 +50,17 @@ function CreateBlogForm({ blogToEdit = {} }) {
     const image =
       typeof data.imageSrc === 'string' ? data.imageSrc : data.imageSrc[0];
 
-    if (isEditSession)
-      editBlog({ newBlogData: { ...data, imageSrc: image }, id: editId });
-    else createBlog({ ...data, imageSrc: image });
+    const newBlog = {
+      ...data,
+      imageSrc: image,
+      price: parseFloat(data.price),
+    };
+
+    if (isEditSession) {
+      editBlog({ newBlogData: newBlog, id: editId });
+    } else {
+      createBlog(newBlog);
+    }
   }
 
   return (
@@ -132,6 +139,28 @@ function CreateBlogForm({ blogToEdit = {} }) {
             className="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-[#FB7E46] focus:outline-none"
             disabled={isWorking}
           />
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold text-[#27221F]">
+            Price
+          </label>
+          <input
+            type="text"
+            {...register('price', {
+              required: 'Please enter a price',
+              validate: (value) =>
+                !isNaN(parseFloat(value)) && parseFloat(value) >= 0
+                  ? true
+                  : 'Price must be a non-negative number',
+            })}
+            placeholder="price"
+            className="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-[#FB7E46] focus:outline-none"
+            disabled={isWorking}
+          />
+          {errors.price && (
+            <p className="mt-1 text-sm text-red-600">{errors.price.message}</p>
+          )}
         </div>
 
         <div>

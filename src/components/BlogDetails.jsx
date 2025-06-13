@@ -1,15 +1,39 @@
 import { useBlog } from '../features/blog/useBlog';
 import UserAvatar from '../features/authentication/UserAvatar';
+import { useEffect, useState } from 'react';
+import supabase from '../services/supabase';
 
 function BlogDetails() {
   const { blog, isLoading, error } = useBlog();
+  const [currentUserId, setCurrentUserId] = useState(null);
+
+  useEffect(() => {
+    async function getCurrentUser() {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user) setCurrentUserId(user.id);
+    }
+    getCurrentUser();
+  }, []);
 
   if (isLoading) return <p className="py-10 text-center">Loading blog...</p>;
   if (error || !blog)
     return <p className="py-10 text-center text-red-500">Blog not found.</p>;
 
-  const { imageSrc, altText, tag, date, title, author_name, author_avatar } =
-    blog;
+  const {
+    imageSrc,
+    altText,
+    tag,
+    date,
+    title,
+    author_name,
+    author_avatar,
+    authorid,
+    price,
+  } = blog;
+
+  const isAuthor = currentUserId === authorid;
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-10 text-center">
@@ -21,9 +45,11 @@ function BlogDetails() {
         />
       </div>
       <div className="mb-4 flex flex-wrap justify-center gap-4 text-sm">
-        <span className="rounded-full border border-[#FB7E46] px-3 py-1 text-xs font-medium text-[#27221F]">
-          {tag}
-        </span>
+        {!isAuthor && (
+          <button className="rounded-full border border-[#FB7E46] px-3 py-1 text-xs font-medium text-[#27221F] hover:bg-[#FB7E46] hover:text-white">
+            {tag} {price}$
+          </button>
+        )}
         <span className="mt-1 text-sm font-medium text-[#27221F]">{date}</span>
       </div>
       <h1 className="mb-6 text-3xl font-extrabold uppercase text-[#27221F]">
