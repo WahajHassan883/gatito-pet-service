@@ -10,6 +10,7 @@ import SignUpForm from '../features/authentication/SignUpForm';
 import ProtectedRoute from '../ui/ProtectedRoute';
 import CreateBlogForm from '../features/blog/CreateBlogForm';
 import Blog1 from '../pages/Blog1';
+import PaymentSuccess from '../pages/PaymentSuccess';
 
 const Applayout = lazy(() => import('../ui/Applayout'));
 const Home = lazy(() => import('../pages/Home'));
@@ -18,6 +19,7 @@ const AboutUs = lazy(() => import('../pages/AboutUs'));
 const Blog = lazy(() => import('../pages/Blog'));
 const ContactUs = lazy(() => import('../pages/ContactUs'));
 const Team = lazy(() => import('../pages/Team'));
+const StripeCheckoutPage = lazy(() => import('../pages/StripeCheckoutPage'));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -78,6 +80,8 @@ function App() {
             <Route path="/blog/createblogform" element={<CreateBlogForm />} />
             <Route path="contact" element={<ContactUs />} />
             <Route path="team" element={<Team />} />
+            <Route path="pay" element={<StripeCheckoutPage />} />
+            <Route path="/payment-success" element={<PaymentSuccess />} />
           </Route>
         </Routes>
       </Suspense>
