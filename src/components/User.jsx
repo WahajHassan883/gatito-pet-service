@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form';
 
 function User() {
   const { register, handleSubmit, formState, reset } = useForm();
-
   const queryClient = useQueryClient();
 
   const { mutate, isLoading } = useMutation({
@@ -29,15 +28,20 @@ function User() {
       className="mx-auto mb-10 max-w-2xl p-6"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div className="mb-4 grid gap-4 sm:grid-cols-2">
+        {/* Name */}
         <div>
-          <label className="mb-1 block text-lg font-bold text-[#27221F]">
+          <label
+            htmlFor="name"
+            className="mb-1 block text-lg font-bold text-[#27221F]"
+          >
             Name
           </label>
           <input
             id="name"
             type="text"
             placeholder="Name"
+            autoComplete="name"
             {...register('name', { required: 'Name is required' })}
             disabled={isLoading}
             className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
@@ -46,14 +50,20 @@ function User() {
             <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
           )}
         </div>
+
+        {/* Email */}
         <div>
-          <label className="mb-1 block text-lg font-bold text-[#27221F]">
+          <label
+            htmlFor="email"
+            className="mb-1 block text-lg font-bold text-[#27221F]"
+          >
             Email
           </label>
           <input
             id="email"
             type="email"
-            placeholder="Example@youremail.com"
+            placeholder="example@youremail.com"
+            autoComplete="email"
             {...register('email', {
               required: 'Email is required',
               pattern: {
@@ -68,19 +78,25 @@ function User() {
             <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
           )}
         </div>
+
+        {/* Phone */}
         <div>
-          <label className="mb-1 block text-lg font-bold text-[#27221F]">
+          <label
+            htmlFor="phoneNo"
+            className="mb-1 block text-lg font-bold text-[#27221F]"
+          >
             Phone Number
           </label>
           <input
             id="phoneNo"
             type="tel"
             placeholder="+777 666 8888"
+            autoComplete="tel"
             {...register('phoneNo', {
               required: 'Phone number is required',
               pattern: {
-                value: /^[0-9]+$/,
-                message: 'Invalid phone number',
+                value: /^\+?\d{7,15}$/,
+                message: 'Enter a valid phone number',
               },
             })}
             disabled={isLoading}
@@ -92,14 +108,19 @@ function User() {
             </p>
           )}
         </div>
+
+        {/* Service */}
         <div>
-          <label className="mb-1 block text-lg font-bold text-[#27221F]">
+          <label
+            htmlFor="service"
+            className="mb-1 block text-lg font-bold text-[#27221F]"
+          >
             Service
           </label>
           <input
             id="service"
             type="text"
-            placeholder="Ex Dog walking"
+            placeholder="e.g. Dog Walking"
             {...register('service', { required: 'Service is required' })}
             disabled={isLoading}
             className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
@@ -112,20 +133,26 @@ function User() {
         </div>
       </div>
 
+      {/* Message */}
       <div className="mb-6">
-        <label className="mb-1 block text-lg font-bold text-[#27221F]">
+        <label
+          htmlFor="message"
+          className="mb-1 block text-lg font-bold text-[#27221F]"
+        >
           Message
         </label>
         <textarea
           id="message"
           rows="4"
-          placeholder="Write your message here.."
+          maxLength={500}
+          placeholder="Write your message here..."
           {...register('message')}
           disabled={isLoading}
           className="w-full resize-none rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
         ></textarea>
       </div>
 
+      {/* Submit */}
       <button
         type="submit"
         disabled={isLoading}

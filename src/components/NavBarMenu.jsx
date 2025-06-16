@@ -2,7 +2,7 @@ import Logout from '../features/authentication/Logout';
 
 function NavBarMenu() {
   return (
-    <ul className="flex items-center gap-4 md:mr-6 md:mt-5">
+    <ul className="flex items-center gap-4 md:mr-6 md:mt-1">
       <li>
         <Logout />
       </li>

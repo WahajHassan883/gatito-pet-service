@@ -34,42 +34,47 @@ function FQA() {
   };
 
   return (
-    <div className="px-6 py-12">
-      <h1 className="mb-10 text-5xl font-extrabold uppercase tracking-tight text-[#27221F]">
+    <div className="px-4 py-10 md:px-10 lg:px-24">
+      <h1 className="mb-10 text-3xl font-extrabold uppercase tracking-tight text-[#27221F] md:text-4xl lg:text-5xl">
         Frequently Asked Questions
       </h1>
 
-      <div className="flex items-start gap-6">
-        <div className="flex flex-col items-start">
+      <div className="flex flex-col gap-8 md:flex-row md:items-start">
+        {/* Image & contact block */}
+        <div className="flex flex-col items-center md:w-1/3 md:items-start">
           <img
             src="./kitty.png"
             alt="Cat"
-            className="h-[390px] w-[260px] rounded-lg object-cover shadow-md"
+            className="h-64 w-48 rounded-lg object-cover shadow-md sm:h-80 sm:w-56 md:h-[390px] md:w-[260px]"
           />
-          <div className="mt-4">
+          <div className="mt-4 text-center md:text-left">
             <p className="text-sm font-extrabold uppercase text-[#27221F]">
-              Have question?
+              Have a question?
             </p>
             <p className="text-sm text-gray-700">Contact us at 648-423-2785.</p>
           </div>
         </div>
 
-        <div className="flex w-full flex-col space-y-3">
+        {/* FAQ accordion */}
+        <div className="flex-1 space-y-4">
           {fqaData.map((faq, index) => (
             <div key={index} className="rounded-md bg-white px-5 py-4 shadow">
-              <div className="flex items-center justify-between">
-                <p className="text-xl font-extrabold uppercase text-[#27221F]">
+              <div className="flex items-center justify-between gap-4">
+                <p className="text-base font-bold uppercase text-[#27221F] sm:text-lg md:text-xl">
                   {faq.question}
                 </p>
                 <button
                   onClick={() => toggle(index)}
                   className="text-2xl font-bold text-[#27221F] focus:outline-none"
+                  aria-label={`Toggle ${faq.question}`}
                 >
-                  {question === index ? '-' : '+'}
+                  {question === index ? '−' : '+'}
                 </button>
               </div>
               {question === index && (
-                <p className="mt-3 text-lg text-[#27221F]">{faq.answer}</p>
+                <p className="mt-3 text-sm text-[#27221F] sm:text-base md:text-lg">
+                  {faq.answer}
+                </p>
               )}
             </div>
           ))}

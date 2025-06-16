@@ -33,26 +33,30 @@ function ServiceCard({ showHeading = false, showExtras = false }) {
   return (
     <div className="rounded-md px-4 py-5 md:px-16">
       {showHeading && (
-        <h1 className="mb-12 mt-8 text-center text-5xl font-extrabold uppercase tracking-wider text-[#27221F]">
+        <h1 className="mb-8 mt-4 text-center text-3xl font-extrabold uppercase tracking-wider text-[#27221F] sm:text-4xl md:text-5xl">
           Our Services
         </h1>
       )}
-      <div className="flex flex-col items-center rounded-lg bg-white md:flex-row">
-        <div>
+      <div className="flex flex-col items-center gap-6 rounded-lg bg-white p-4 sm:p-6 md:flex-row md:gap-0">
+        {/* Image */}
+        <div className="w-full sm:w-auto">
           <img
             src={imageSrc}
             alt={title}
-            className="h-80 w-[22vw] rounded-md object-cover"
+            className="mx-auto h-52 w-full max-w-sm rounded-md object-cover sm:h-64 md:h-80 md:w-[22vw]"
           />
         </div>
 
-        <div className="ml-12 flex flex-col justify-between text-left">
-          <h2 className="text-3xl font-bold uppercase text-[#27221F]">
+        {/* Text */}
+        <div className="mt-4 flex flex-col justify-between text-center sm:text-left md:ml-12">
+          <h2 className="text-2xl font-bold uppercase text-[#27221F] sm:text-3xl">
             {title}
           </h2>
-          <p className="my-5 max-w-md text-lg text-gray-700">{description}</p>
+          <p className="my-4 text-sm text-gray-700 sm:text-base md:my-5 md:max-w-md">
+            {description}
+          </p>
           <NavLink to="/book">
-            <button className="mt-14 w-fit rounded bg-[#FB7E46] px-5 py-2 text-sm font-bold uppercase text-black hover:bg-orange-600">
+            <button className="mx-auto mt-6 w-fit rounded bg-[#FB7E46] px-5 py-2 text-sm font-bold uppercase text-black hover:bg-orange-600 sm:mx-0 md:mt-14">
               Book Now
             </button>
           </NavLink>
@@ -60,8 +64,8 @@ function ServiceCard({ showHeading = false, showExtras = false }) {
       </div>
 
       {showExtras && (
-        <div className="mx-auto mt-5 flex max-w-7xl items-center justify-between px-4 md:px-0">
-          <div className="rounded-md bg-white px-4 py-2">
+        <div className="mx-auto mt-6 flex flex-col items-center justify-center gap-4 sm:flex-row sm:justify-between sm:px-4 md:mt-5 md:max-w-7xl md:flex-row md:px-0">
+          <div className="rounded-md bg-white px-4 py-2 text-center">
             <h2 className="text-sm font-semibold uppercase tracking-wide text-[#27221F]">
               See All Services
             </h2>

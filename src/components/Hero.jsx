@@ -24,7 +24,7 @@ function Hero({ showButton = true, title1, title2, showImages = false }) {
             />
           </div>
 
-          <div className="h-42w-42 absolute left-1/2 top-0 -translate-x-1/2 transform overflow-hidden rounded-full border-8 border-[#8FB3F7]">
+          <div className="h-42 w-42 absolute left-1/2 top-0 -translate-x-1/2 transform overflow-hidden rounded-full border-8 border-[#8FB3F7]">
             <img
               src="/dog_runing.png"
               alt="Dog Running"
