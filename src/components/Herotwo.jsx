@@ -8,7 +8,6 @@ function Herotwo() {
           className="h-[80vh] w-[300vw]"
         />
       </div>
-
       <div className="mx-12 my-10">
         <h1 className="mb-2 text-3xl font-extrabold uppercase text-[#27221F]">
           Passionate about pets and driven <br /> by a shared love for animals
