@@ -3,11 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getBlogs } from './apiBlogs';
 
 function BlogCard({ showHeading = true, showExtra = true }) {
-  const {
-    isLoading,
-    data: blogs,
-    error,
-  } = useQuery({
+  const { isLoading, data: blogs } = useQuery({
     queryKey: ['blog'],
     queryFn: getBlogs,
   });
