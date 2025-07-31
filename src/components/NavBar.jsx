@@ -5,7 +5,7 @@ function NavBar() {
   return (
     <nav className="flex flex-col gap-4 px-4 py-4 sm:items-center sm:justify-between md:flex-row">
       {/* Main logo and nav links */}
-      <div className="flex w-full flex-col items-center gap-4 rounded-xl bg-white p-4 sm:flex-row sm:justify-between md:ml-6 md:mt-5 md:w-[512px] md:items-center md:gap-6 md:rounded-full md:px-6 md:py-4">
+      <div className="flex w-full flex-col items-center gap-4 rounded-xl bg-red-500 p-4 sm:flex-row sm:justify-between md:ml-6 md:mt-5 md:w-[512px] md:items-center md:gap-6 md:rounded-full md:px-6 md:py-4">
         {/* Logo */}
         <div className="text-2xl font-bold text-[#FB7E46] sm:text-xl">
           <NavLink to="/">GATITO</NavLink>
