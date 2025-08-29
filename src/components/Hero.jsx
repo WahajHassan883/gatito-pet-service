@@ -7,7 +7,7 @@ function Hero({ showButton = true, title1, title2, showImages = false }) {
   return (
     <div className="relative mx-auto max-w-6xl overflow-hidden p-6">
       {showImages && (
-        <>
+        <div className="hidden md:block">
           <div className="h-42 w-42 absolute left-0 top-10 overflow-hidden rounded-full border-8 border-[#FEBF03]">
             <img
               src="/woman_with_dog.png"
@@ -47,7 +47,7 @@ function Hero({ showButton = true, title1, title2, showImages = false }) {
               className="h-full w-full object-cover"
             />
           </div>
-        </>
+        </div>
       )}
 
       <div className="mt-44 text-center">
